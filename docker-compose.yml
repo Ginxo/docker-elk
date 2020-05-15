@@ -67,6 +67,23 @@ services:
       - elk
     depends_on:
       - elasticsearch
+  jenkins:
+    image: jenkins/jenkins:latest
+    container_name: jenkins
+    user: root
+    privileged: true
+    volumes:
+      - ./jenkins_home/data/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    environment:
+      JENKINS_HOST_HOME: "/data/jenkins"
+    ports:
+      - "8080:8080"
+      - "5001:5000"
+      - "50001:50000"
+    networks:
+      - elk
 
 networks:
   elk:
